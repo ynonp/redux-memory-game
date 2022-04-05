@@ -9,43 +9,43 @@ const initialState = {
   }))),
 };
 
+function onPlay(state, action) {
+  const index = action.payload;
+  if (state.cards[index].hidden) {
+    state.cards[index].hidden = false;
+  }
+
+  const visibleCards = state.cards.filter(c => !c.found && !c.hidden);
+  if (visibleCards.length === 2) {
+    if (visibleCards[0].value === visibleCards[1].value) {
+      visibleCards[0].found = true;
+      visibleCards[1].found = true;
+    }
+  }
+}
+
+function onCheck(state) {
+  for (let c of state.cards) {
+    if (!c.found) {
+      c.hidden = true;
+    }
+  }
+}
+
 export const memorySlice = createSlice({
   name: 'memory',
   initialState,
   // The `reducers` field lets us define reducers and generate associated actions
   reducers: {
-    play: (state, action) => {
-      const index = action.payload;
-      if (state.cards[index].hidden) {
-        state.cards[index].hidden = false;
-      }
-
-      const visibleCards = state.cards.filter(c => !c.found && !c.hidden);
-      if (visibleCards.length === 2) {
-        if (visibleCards[0].value === visibleCards[1].value) {
-          visibleCards[0].found = true;
-          visibleCards[1].found = true;
-        }
-      }
-    },
-
-    check: (state) => {
-      for (let c of state.cards) {
-        if (!c.found) {
-          c.hidden = true;
-        }
-      }
-    },
+    play: onPlay,
+    check: onCheck
   },
 });
-
-export const { play, check } = memorySlice.actions;
-
-export const selectFoundAll = (state) => state.memory.cards.filter(c => c.found).length === state.cards.length;
 
 export const selectVisibleCards = (state) => state.memory.cards.filter(c => !c.hidden && !c.found);
 
 export const selectCards = (state) => state.memory.cards;
 
-export default memorySlice.reducer;
 
+export const { play, check } = memorySlice.actions;
+export default memorySlice.reducer;
