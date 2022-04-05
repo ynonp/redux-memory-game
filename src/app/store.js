@@ -1,8 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import memoryReducer from '../features/memory/memorySlice';
+import memory from '../features/memory/memoryMiddleware';
 
 export const store = configureStore({
   reducer: {
-    counter: counterReducer,
+    memory: memoryReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(memory),
 });

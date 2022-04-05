@@ -1,0 +1,20 @@
+.card.found {
+  background: yellow;
+}
+
+.card.hidden {
+  color: transparent;
+}
+
+.card {
+  margin: 10px;
+  border: 1px solid black;
+  width: 50px;
+  height: 80px;
+  text-align: center;
+  line-height: 80px;
+  vertical-align: top;
+  display: inline-block;
+}
+
+
